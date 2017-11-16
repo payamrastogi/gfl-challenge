@@ -14,6 +14,7 @@ public class Config
 	private final String sfBayStopMonitoring;
 	private final String elasticHostname;
 	private final String elasticIndexName;
+	private final String responseTemplate;
 	
 	public String getSfBayHostname()
 	{
@@ -55,6 +56,11 @@ public class Config
 		return this.elasticIndexName;
 	}
 	
+	public String getResponseTemplate()
+	{
+		return this.responseTemplate;
+	}
+	
 	public Config(File configFile) throws IOException
 	{
 		this(loadProperties(configFile));
@@ -69,6 +75,8 @@ public class Config
 		
 		this.elasticHostname = prop.getProperty("elastic_hostname");
 		this.elasticIndexName = prop.getProperty("elastic_index_name");
+		
+		this.responseTemplate = prop.getProperty("response_template");
 	}
 	
 	private static Properties loadProperties(File file) throws IOException

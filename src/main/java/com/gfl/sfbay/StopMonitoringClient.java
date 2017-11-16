@@ -33,4 +33,11 @@ public class StopMonitoringClient
 		StopMonitoringResponse response = search.predict();
 		return response;
 	}
+	
+	public StopMonitoringResponse getResponse(StopMonitoringSearch search, String agencyCode, String stopCode)
+	{
+		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
+		StopMonitoringResponse response = search.predict(config.getSfBayApiKey(), agencyCode, stopCode);
+		return response;
+	}
 }

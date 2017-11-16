@@ -40,7 +40,7 @@ public class DateUtil
 			return null;
 		
 		String[] timeArray = time.split(":");
-		if(timeArray.length!=3)
+		if(timeArray.length!=2 && timeArray.length!=3)
 		{
 			logger.debug(timeArray.length+"");
 			return null;

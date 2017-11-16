@@ -1,8 +1,7 @@
 package com.gfl.sbay.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-@JsonIgnoreProperties(value = { "ContactTelephoneNumber" })
+
 public class OperatorResponse
 {
 	@JsonProperty("Id")

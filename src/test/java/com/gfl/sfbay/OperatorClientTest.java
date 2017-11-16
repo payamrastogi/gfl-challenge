@@ -23,9 +23,10 @@ public class OperatorClientTest
 		{
 			config = new Config(file);
 			OperatorsClient e = new OperatorsClient(config);
+			System.out.println(config.getSfBayUrl());
 			OperatorSearch operatorSearch = e.createClient(config.getSfBayUrl());
-			List<OperatorResponse> response = e.getResponse(operatorSearch);
-			System.out.println(response.get(0).name+ " " + response.get(0).shortName);
+			List<OperatorResponse>  response = e.getResponse(operatorSearch);
+			System.out.println(response.size()+" "+response.get(0).name);
 		}
 		catch (IOException e1)
 		{

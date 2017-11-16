@@ -24,7 +24,7 @@ public class StopMonitoringClientTest
 			StopMonitoringClient e = new StopMonitoringClient(config);
 			StopMonitoringSearch search = e.createClient(config.getSfBayUrl());
 			StopMonitoringResponse response = e.getResponse(search);
-			System.out.println(response.producerRef+ " ");
+			System.out.println(response.serviceDelivery.producerRef+ " ");
 		}
 		catch (IOException e1)
 		{

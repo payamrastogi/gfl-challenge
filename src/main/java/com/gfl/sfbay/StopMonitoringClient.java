@@ -6,6 +6,7 @@ import com.gfl.util.Config;
 import feign.Feign;
 import feign.gson.GsonDecoder;
 import feign.jackson.JacksonDecoder;
+import feign.okhttp.OkHttpClient;
 
 public class StopMonitoringClient
 {
@@ -19,7 +20,8 @@ public class StopMonitoringClient
 	public StopMonitoringSearch createClient(String url)
 	{
 		StopMonitoringSearch search = Feign.builder()
-                .decoder(new GsonDecoder())
+				.client(new OkHttpClient())
+                .decoder(new JacksonDecoder())
                 .target(StopMonitoringSearch.class, url);
 		return search;
 	}

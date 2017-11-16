@@ -27,10 +27,11 @@ public class Slack511Controller
 	
 	public static String createClient(String url, String text)
 	{
-		HttpClient client = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(url);
+		
         
         try {
+        	HttpClient client = HttpClientBuilder.create().build();
+            HttpPost request = new HttpPost(url);
         		JsonObject j = new JsonObject();
         		j.addProperty("response_type", "in_channel");
         		j.addProperty("text", "Hello Meqo"+ text);
@@ -51,6 +52,10 @@ public class Slack511Controller
             //System.out.println(obj.get("Id") + " " + obj.get("Name") + " " + obj.get("ContactTelephoneNumber"));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        catch(Exception ex)
+        {
+        	
         }
         return "Hello World";
 	}

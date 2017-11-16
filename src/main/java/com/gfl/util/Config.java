@@ -8,14 +8,21 @@ import java.util.Properties;
 
 public class Config
 {	
-	private final String sfBayHostName;
+	private final String sfBayHostname;
 	private final String sfBayApiKey;
 	private final String sfBayOperators;
 	private final String sfBayStopMonitoring;
+	private final String elasticHostname;
+	private final String elasticIndexName;
 	
-	public String getSfBayHostName()
+	public String getSfBayHostname()
 	{
-		return this.sfBayHostName;
+		return this.sfBayHostname;
+	}
+	
+	public String getSfBayUrl()
+	{
+		return "https://"+getSfBayHostname();
 	}
 	
 	public String getSfBayApiKey()
@@ -33,6 +40,21 @@ public class Config
 		return this.sfBayStopMonitoring;
 	}
 	
+	public String getElasticHostname()
+	{
+		return this.elasticHostname;
+	}
+	
+	public String getElasticSearchUrl()
+	{
+		return "https://"+getElasticHostname();
+	}
+	
+	public String getElasticIndexName()
+	{
+		return this.elasticIndexName;
+	}
+	
 	public Config(File configFile) throws IOException
 	{
 		this(loadProperties(configFile));
@@ -40,10 +62,13 @@ public class Config
 	
 	Config(Properties prop)
 	{
-		this.sfBayHostName = prop.getProperty("sf_bay_hostName");
+		this.sfBayHostname = prop.getProperty("sf_bay_hostname");
 		this.sfBayApiKey = prop.getProperty("sf_bay_api_key");
 		this.sfBayOperators = prop.getProperty("sf_bay_operators");
 		this.sfBayStopMonitoring = prop.getProperty("sf_bay_stop_monitoring");
+		
+		this.elasticHostname = prop.getProperty("elastic_hostname");
+		this.elasticIndexName = prop.getProperty("elastic_index_name");
 	}
 	
 	private static Properties loadProperties(File file) throws IOException

@@ -1,4 +1,4 @@
-package com.gfl.elastic.util;
+package com.gfl.sfbay.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,24 +8,23 @@ import java.util.Properties;
 
 public class Config
 {	
-
-	private final String elasticHostname;
-	private final String elasticIndexName;
-	private static final String HTTPS="https://";
+	private final String sfBayHostname;
+	private final String sfBayApiKey;
+	private final String HTTPS = "https://";
 	
-	public String getElasticHostname()
+	public String getSfBayHostname()
 	{
-		return this.elasticHostname;
+		return this.sfBayHostname;
 	}
 	
-	public String getElasticSearchUrl()
+	public String getSfBayUrl()
 	{
-		return HTTPS+getElasticHostname();
+		return HTTPS+getSfBayHostname();
 	}
 	
-	public String getElasticIndexName()
+	public String getSfBayApiKey()
 	{
-		return this.elasticIndexName;
+		return this.sfBayApiKey;
 	}
 	
 	public Config(File configFile) throws IOException
@@ -35,8 +34,8 @@ public class Config
 	
 	Config(Properties prop)
 	{
-		this.elasticHostname = prop.getProperty("elastic_hostname");
-		this.elasticIndexName = prop.getProperty("elastic_index_name");
+		this.sfBayHostname = prop.getProperty("sf_bay_hostname");
+		this.sfBayApiKey = prop.getProperty("sf_bay_api_key");
 	}
 	
 	private static Properties loadProperties(File file) throws IOException

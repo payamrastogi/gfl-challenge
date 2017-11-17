@@ -1,4 +1,4 @@
-package com.gfl.elastic.response;
+package com.gfl.service.response;
 
 
 import com.google.gson.JsonElement;

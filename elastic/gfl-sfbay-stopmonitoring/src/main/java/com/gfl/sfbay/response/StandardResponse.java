@@ -1,5 +1,4 @@
-package com.gfl.elastic.response;
-
+package com.gfl.sfbay.response;
 
 import com.google.gson.JsonElement;
 

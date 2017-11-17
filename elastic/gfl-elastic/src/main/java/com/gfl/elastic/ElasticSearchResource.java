@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gfl.elastic.model.ElasticSearch;
 import com.gfl.elastic.model.ElasticSearchResponse;
-import com.gfl.elastic.model.Response;
+import com.gfl.elastic.response.Response;
 import com.gfl.elastic.response.StandardResponse;
 import com.gfl.elastic.response.StatusResponse;
 import com.gfl.elastic.util.Config;

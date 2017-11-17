@@ -1,4 +1,4 @@
-package com.gfl.elastic.model;
+package com.gfl.elastic.response;
 
 public class Response 
 {

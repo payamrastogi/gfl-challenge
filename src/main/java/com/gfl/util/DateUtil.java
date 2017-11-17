@@ -64,6 +64,10 @@ public class DateUtil
 		{
 			ampm = "PM";
 		}
+		else if(hr==0)
+		{
+			hr = 12;
+		}
 		StringBuilder sb = new StringBuilder()
 				.append(hr)
 				.append(":")

@@ -52,7 +52,7 @@ public class GflSfBayResource
 				return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Agency Code for the Agency Name: "+ agencyName+ "  not found"))); 
 		}); 
 		
-		get("/gfl/sfbay/search/:agencyCode/:stopCode", (request, response) -> 
+		get("/gfl/sfbay/search/agencyCode/:agencyCode/stopCode/:stopCode", (request, response) -> 
 		{
 			String agencyCode = request.params(":agencyCode");
 			String stopCode = request.params(":stopCode");

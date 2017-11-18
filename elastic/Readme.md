@@ -118,16 +118,14 @@ Response
 
 gfl-common: It contains the common resources used by other components
 
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
+This is [on GitHub](https://github.com/jbt/markdown-editor)
 
-
-Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
-the inspiration to this, and some handy implementation hints, came.
 
 ### Stuff used to make this:
 
- * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
- * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
- * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
- * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
+ * [Markdown Editor](https://jbt.github.io/markdown-editor/) for Markdown Editor
+ * [Slack Slash Command](https://api.slack.com/slash-commands) Slash Commands Integration
+ * [Open Feign Client](https://github.com/OpenFeign/feign) Open Feign Client for creating simple rest clients
+ * [Spark Java](http://sparkjava.com) for creating simple rest resource to serve rest clients
+ * [ngrok](https://ngrok.com) for creating tunnel to localhost (Testing slack client)
 

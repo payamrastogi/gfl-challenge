@@ -10,9 +10,16 @@
  * execute the following commands on the terminal (current working directory : gfl-challenge/elastic)
 ```
 chmod +x install.sh
-./install.sh
+(sudo) ./install.sh
 chmod +x ngrok
 ```
+
+* to verify if servers have started - check logs in ./gfl-challenge/elastic/log or use the following command (assuming servers are running on default ports).  The below command should show 4 servers running on different port
+
+```
+sudo lsof -i -n -P | grep 888
+```
+
  * on the separate terminal execute the following command
  ``` 
  ./ngrok http [port_of_gfl-service]

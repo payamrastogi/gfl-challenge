@@ -9,12 +9,12 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.elastic.exception.HostNameNotProvidedException;
-import com.gfl.elastic.exception.IndexNameNotProvidedException;
+import com.gfl.commons.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.IndexNameNotProvidedException;
 import com.gfl.elastic.feignclient.ElasticFeignClient;
-import com.gfl.elastic.model.ElasticSearch;
+import com.gfl.elastic.feignclient.ElasticSearch;
 import com.gfl.elastic.model.ElasticSearchResponse;
-import com.gfl.elastic.response.Response;
+import com.gfl.elastic.response.ElasticResponse;
 import com.gfl.elastic.response.StandardResponse;
 import com.gfl.elastic.response.StatusResponse;
 import com.gfl.elastic.util.Config;
@@ -36,7 +36,7 @@ public class ElasticSearchResource
 			if(agencyName!=null)
 			{
 				//ToDo move to utils
-				return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(new Response(stopCode, agencyName))));
+				return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(new ElasticResponse(stopCode, agencyName))));
 			}
 			else
 				return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Agency Name for the Stop Code: "+ stopCode+ "  not found"))); 

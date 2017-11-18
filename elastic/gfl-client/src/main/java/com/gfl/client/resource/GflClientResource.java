@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,14 +21,14 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.client.exception.HostNameNotProvidedException;
-import com.gfl.client.exception.PortNotProvidedException;
 import com.gfl.client.feignclient.GflClientFeignClient;
-import com.gfl.client.response.GflResponse;
-import com.gfl.client.response.StandardGflResponse;
+import com.gfl.client.response.StandardResponse;
 import com.gfl.client.search.GflServiceSearch;
 import com.gfl.client.util.Config;
 import com.gfl.client.util.DateUtil;
+import com.gfl.commons.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.PortNotProvidedException;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GflClientResource 
@@ -44,7 +45,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		{
 			String responseUrl = request.raw().getParameter("response_url");
 			String stopCode = request.raw().getParameter("text");
-			List<GflResponse> responseList = getResponse(config, stopCode);
+			List<Map<String, String>> responseList = getResponse(config, stopCode);
 			List<String> slackResponseList = getSlackResponse(config, responseList);
 			String slackErrorResponse = getFormattedSlackErrorResponse(config, stopCode);
 			sendSlackResponse(responseUrl, slackResponseList, slackErrorResponse);
@@ -84,16 +85,16 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return config;
 	}
 	
-	public static List<GflResponse> getResponse(Config config, String stopCode)
+	public static List<Map<String, String>> getResponse(Config config, String stopCode)
 	{
-		List<GflResponse> responseList = new ArrayList<>();
+		List<Map<String, String>> responseList = new ArrayList<>();
 		GflClientFeignClient ec = new GflClientFeignClient(config);
 		GflServiceSearch gflSearch = ec.createClient();
-		StandardGflResponse gflResponse = gflSearch.getResponse(stopCode);
+		StandardResponse gflResponse = gflSearch.getResponse(stopCode);
 		logger.debug(gflResponse.toString());
-		if("SUCCESS".equals(gflResponse.getStatus())) 
+		if("SUCCESS".equals(gflResponse.getStatus().toString())) 
 		{
-			responseList = gflResponse.getData();
+			responseList = new Gson().fromJson(gflResponse.getData(), List.class);
 			logger.debug("responseList size: "+responseList.size());
 		}
 		else
@@ -103,18 +104,18 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return responseList;
 	}
 	
-	public static List<String> getSlackResponse(Config config, List<GflResponse> responseList)
+	public static List<String> getSlackResponse(Config config, List<Map<String, String>> responseList)
 	{
 		List<String> slackResponseList = new ArrayList<>();
 		int responseSize = Math.min(config.getSlackResponseSize(), responseList.size());
 		for(int i=0;i<responseSize;i++)
 		{
-			GflResponse gflResponse = responseList.get(i);
+			Map<String, String> map = responseList.get(i);
 			slackResponseList.add(getFormattedSlackResponse(config, 
-					gflResponse.getAgencyName(), 
-					gflResponse.getStopCode(), 
-					gflResponse.getBusNo(),
-					gflResponse.getArrivalTime()));
+					map.get("agencyName"), 
+					map.get("stopCode"), 
+					map.get("busNo"),
+					map.get("arrivalTime")));
 		}
 		if(slackResponseList.isEmpty())
 			logger.error("GflResponse list is empty");

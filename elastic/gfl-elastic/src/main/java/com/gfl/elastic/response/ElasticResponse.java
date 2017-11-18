@@ -1,11 +1,11 @@
 package com.gfl.elastic.response;
 
-public class Response 
+public class ElasticResponse 
 {
 	private String stopCode;
 	private String agencyName;
 	
-	public Response(String stopCode, String agencyName)
+	public ElasticResponse(String stopCode, String agencyName)
 	{
 		this.setStopCode(stopCode);
 		this.setAgencyName(agencyName);

@@ -1,16 +1,12 @@
-package com.gfl.service.response;
+package com.gfl.commons.response;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonElement;
 
 public class StandardResponse {
     private StatusResponse status;
-
     private String message;
-
     private JsonElement data;
-    
+
     public StandardResponse(StatusResponse status) {
         this.status = status;
     }

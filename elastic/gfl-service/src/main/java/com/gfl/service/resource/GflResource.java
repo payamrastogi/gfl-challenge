@@ -7,21 +7,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.service.exception.HostNameNotProvidedException;
-import com.gfl.service.exception.PortNotProvidedException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.gfl.commons.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.PortNotProvidedException;
 import com.gfl.service.feignclient.ElasticFeignClient;
 import com.gfl.service.feignclient.SfBayFeignClient;
 import com.gfl.service.response.GflResponse;
-import com.gfl.service.response.StandardElasticResponse;
-import com.gfl.service.response.StandardOperatorResponse;
 import com.gfl.service.response.StandardResponse;
-import com.gfl.service.response.StandardStopMonitoringResponse;
 import com.gfl.service.response.StatusResponse;
-import com.gfl.service.response.StopMonitoringResponse;
 import com.gfl.service.search.ElasticSearch;
 import com.gfl.service.search.SfBaySearch;
 import com.gfl.service.util.Config;
@@ -86,7 +85,7 @@ public class GflResource
 		return config;
 	}
 	
-	public static List<GflResponse> getResponse(Config config, String stopCode)
+	public static List<GflResponse> getResponse(Config config, String stopCode) throws JsonParseException, JsonMappingException, IOException
 	{
 		List<GflResponse> responseList = new ArrayList<>(); 
 		String agencyName = getAgencyName(config, stopCode);
@@ -94,15 +93,15 @@ public class GflResource
 		String agencyCode = getAgencyCode(config, agencyName);
 		logger.debug(agencyCode);
 		
-		StandardStopMonitoringResponse stopResponse = getStopMonitoringResponse(config, agencyCode, stopCode);		
-		if("SUCCESS".equals(stopResponse.getStatus()))
+		StandardResponse stopResponse = getStopMonitoringResponse(config, agencyCode, stopCode);	
+		logger.debug(stopResponse.getStatus().toString());
+		if("SUCCESS".equals(stopResponse.getStatus().toString()))
 		{
-			
-			List<StopMonitoringResponse> list  = stopResponse.getData();
-			for(StopMonitoringResponse sr : list)
+			List<Map<String, String>> result = new Gson().fromJson(stopResponse.getData(), List.class);
+			for(Map<String, String>  map: result)
 			{
-				String busNo = getBusNo(sr);
-				String arrivalTime = getArrivalTime(sr);
+				String busNo = map.get("busNo");
+				String arrivalTime = map.get("arrivalTime");
 				logger.debug(busNo + " "+ arrivalTime);
 				responseList.add(new GflResponse(stopCode, agencyName,agencyCode, busNo, arrivalTime));
 			}
@@ -114,15 +113,17 @@ public class GflResource
     		return responseList;
 	}
 	
-	public static String getAgencyName(Config config, String stopCode)
+	public static String getAgencyName(Config config, String stopCode) throws JsonParseException, JsonMappingException, IOException
 	{
 		ElasticFeignClient ec = new ElasticFeignClient(config);
 		ElasticSearch elasticSearch = ec.createClient();
-		StandardElasticResponse elasticResponse = ec.getResponse(elasticSearch, stopCode);
+		StandardResponse elasticResponse = ec.getResponse(elasticSearch, stopCode);
 		String agencyName = null;
-		if("SUCCESS".equals(elasticResponse.getStatus())) 
+		logger.debug(elasticResponse.getStatus().toString());
+		if("SUCCESS".equals(elasticResponse.getStatus().toString())) 
 		{
-			agencyName = elasticResponse.getData().getAgencyName();
+			Map<String, String> result = new Gson().fromJson(elasticResponse.getData(), Map.class);
+			agencyName = result.get("agencyName");
 			logger.debug("agencyName: "+agencyName);
 		}
 		else
@@ -139,11 +140,12 @@ public class GflResource
 		SfBayFeignClient sc = new SfBayFeignClient(config);
 		logger.debug(config.getGflSfBayUrl());
 		SfBaySearch search = sc.createClient();
-		StandardOperatorResponse scResponse = sc.getResponse(search, agencyName);
+		StandardResponse scResponse = sc.getResponse(search, agencyName);
 
-		if("SUCCESS".equals(scResponse.getStatus()))
+		if("SUCCESS".equals(scResponse.getStatus().toString()))
 		{
-			agencyCode = scResponse.getData().getAgencyCode();
+			Map<String, String> result = new Gson().fromJson(scResponse.getData(), Map.class);
+			agencyCode = result.get("agencyCode");
 			logger.debug("agencyCode: "+agencyCode);
 		}
 		else
@@ -153,23 +155,13 @@ public class GflResource
 		return agencyCode;
 	}
 	
-	public static StandardStopMonitoringResponse getStopMonitoringResponse(Config config, String agencyCode, String stopCode)
+	public static StandardResponse getStopMonitoringResponse(Config config, String agencyCode, String stopCode)
 	{
 		SfBayFeignClient sc = new SfBayFeignClient(config);
 		logger.debug(config.getGflSfBayUrl());
 		SfBaySearch search = sc.createClient();
-		StandardStopMonitoringResponse stopResponse = sc.getResponse(search, agencyCode, stopCode);
+		StandardResponse stopResponse = sc.getResponse(search, agencyCode, stopCode);
 		logger.debug(stopResponse.toString());
 		return stopResponse;
-	}
-	
-	public static String getBusNo(StopMonitoringResponse stopResponse)
-	{
-		return stopResponse.getBusNo();
-	}
-	
-	public static String getArrivalTime(StopMonitoringResponse stopResponse)
-	{
-		return  stopResponse.getArrivalTime();
 	}
 }

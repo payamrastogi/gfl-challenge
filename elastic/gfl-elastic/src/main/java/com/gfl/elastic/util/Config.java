@@ -8,8 +8,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.elastic.exception.HostNameNotProvidedException;
-import com.gfl.elastic.exception.IndexNameNotProvidedException;
+import com.gfl.commons.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.IndexNameNotProvidedException;
 public class Config
 {	
 	private static Logger logger = LoggerFactory.getLogger(Config.class);

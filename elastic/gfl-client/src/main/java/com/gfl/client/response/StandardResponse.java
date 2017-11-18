@@ -1,4 +1,4 @@
-package com.gfl.service.response;
+package com.gfl.client.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

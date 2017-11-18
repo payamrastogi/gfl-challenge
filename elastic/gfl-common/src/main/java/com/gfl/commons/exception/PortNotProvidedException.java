@@ -1,4 +1,4 @@
-package com.gfl.client.exception;
+package com.gfl.commons.exception;
 
 public class PortNotProvidedException extends Exception
 {

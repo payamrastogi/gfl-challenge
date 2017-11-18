@@ -9,8 +9,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.sfbay.exception.ApiKeyNotProvidedException;
-import com.gfl.sfbay.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.ApiKeyNotProvidedException;
+import com.gfl.commons.exception.HostNameNotProvidedException;
 
 public class Config
 {	
@@ -60,12 +60,12 @@ public class Config
 		return this.sfBayApiKey;
 	}
 	
-	public Config(File configFile) throws IOException, HostNameNotProvidedException, ApiKeyNotProvidedException
+	public Config(File configFile) throws IOException, com.gfl.commons.exception.HostNameNotProvidedException, ApiKeyNotProvidedException
 	{
 		this(loadProperties(configFile));
 	}
 	
-	Config(Properties prop) throws HostNameNotProvidedException, ApiKeyNotProvidedException
+	Config(Properties prop) throws com.gfl.commons.exception.HostNameNotProvidedException, ApiKeyNotProvidedException
 	{
 		this.sfBayHostname = prop.getProperty("sf_bay_hostname");
 		this.sfBayApiKey = prop.getProperty("sf_bay_api_key");

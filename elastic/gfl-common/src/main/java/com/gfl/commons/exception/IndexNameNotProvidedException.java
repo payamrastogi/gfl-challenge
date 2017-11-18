@@ -1,4 +1,4 @@
-package com.gfl.elastic.exception;
+package com.gfl.commons.exception;
 
 public class IndexNameNotProvidedException extends Exception
 {

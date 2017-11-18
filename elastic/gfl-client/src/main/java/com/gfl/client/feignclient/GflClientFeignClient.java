@@ -1,10 +1,12 @@
 package com.gfl.client.feignclient;
 
 import com.gfl.client.response.StandardGflResponse;
+import com.gfl.client.response.StandardResponse;
 import com.gfl.client.search.GflServiceSearch;
 import com.gfl.client.util.Config;
 
 import feign.Feign;
+import feign.gson.GsonDecoder;
 import feign.jackson.JacksonDecoder;
 
 public class GflClientFeignClient
@@ -19,15 +21,14 @@ public class GflClientFeignClient
 	public GflServiceSearch createClient()
 	{
 		GflServiceSearch search = Feign.builder()
-                .decoder(new JacksonDecoder())
+                .decoder(new GsonDecoder())
                 .target(GflServiceSearch.class, config.getGflServiceUrl());
 		return search;
 	}
-	//Whether this method should be created or not
-	//or should it be the part of any other class eg ElasticSearch
-	public StandardGflResponse getResponse(GflServiceSearch search, String stopCode)
+
+	public StandardResponse getResponse(GflServiceSearch search, String stopCode)
 	{
-		StandardGflResponse response = search.getResponse(stopCode);
+		StandardResponse response = search.getResponse(stopCode);
 		return response;
 	}
 }

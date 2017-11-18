@@ -2,7 +2,7 @@ package com.gfl.service.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class GflResponse implements Response
+public class GflResponse
 {
 	@JsonProperty("stopCode")
 	private String stopCode;

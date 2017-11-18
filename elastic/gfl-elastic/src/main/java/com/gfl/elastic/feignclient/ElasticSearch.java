@@ -1,4 +1,6 @@
-package com.gfl.elastic.model;
+package com.gfl.elastic.feignclient;
+
+import com.gfl.elastic.model.ElasticSearchResponse;
 
 import feign.Param;
 import feign.RequestLine;

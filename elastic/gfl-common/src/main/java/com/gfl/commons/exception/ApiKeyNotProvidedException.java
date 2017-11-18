@@ -1,4 +1,4 @@
-package com.gfl.sfbay.exception;
+package com.gfl.commons.exception;
 
 public class ApiKeyNotProvidedException extends Exception{
 	private static final long serialVersionUID = 1L;

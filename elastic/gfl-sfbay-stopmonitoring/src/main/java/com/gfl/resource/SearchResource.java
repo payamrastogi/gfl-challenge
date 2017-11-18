@@ -13,8 +13,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gfl.sfbay.exception.ApiKeyNotProvidedException;
-import com.gfl.sfbay.exception.HostNameNotProvidedException;
+import com.gfl.commons.exception.ApiKeyNotProvidedException;
+import com.gfl.commons.exception.HostNameNotProvidedException;
 import com.gfl.sfbay.feignclient.OperatorFeignClient;
 import com.gfl.sfbay.feignclient.SfBaySearch;
 import com.gfl.sfbay.feignclient.StopMonitoringFeignClient;

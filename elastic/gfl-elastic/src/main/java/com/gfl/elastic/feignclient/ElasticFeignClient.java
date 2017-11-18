@@ -1,6 +1,5 @@
 package com.gfl.elastic.feignclient;
 
-import com.gfl.elastic.model.ElasticSearch;
 import com.gfl.elastic.model.ElasticSearchResponse;
 import com.gfl.elastic.util.Config;
 

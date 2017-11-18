@@ -1,7 +1,12 @@
 package com.gfl.service.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.gfl.commons.exception.DateTimeFormatException;
 
 public class DateUtil
 {
@@ -29,49 +34,45 @@ public class DateUtil
 		return time;
 	}
 	
-	public static String getTimeIn12HrFormat(String timestamp)
+	public static String getTimeIn12HrFormat(String timestamp) throws DateTimeFormatException
 	{
-		if(timestamp.indexOf('T')<0)
-			return null;
-			
-		String[] arr = timestamp.split("T");
-		String time = arr[1].split("Z")[0];
-		if(time.indexOf(':')<0)
-			return null;
+		Pattern pattern = Pattern.compile("T(\\d{2}):(\\d{2}):?.*");
+		Matcher matcher = pattern.matcher(timestamp);
+		String hr = null;
+		String min = null;
+		if(matcher.find())
+		{
+			logger.debug(matcher.group());
+			hr  = matcher.group(1);
+			min = matcher.group(2);
+			logger.debug(hr + " : "+min);
+		}
+		else
+		{
+			throw new DateTimeFormatException("Unsupported DateTime format");
+		}
 		
-		String[] timeArray = time.split(":");
-		if(timeArray.length!=2 && timeArray.length!=3)
-		{
-			logger.debug(timeArray.length+"");
-			return null;
-		}
-			
-		for(String s : timeArray)
-		{
-			if(!isNumeric(s))
-				return null;
-		}
-		int hr = Integer.parseInt(timeArray[0]);
-		logger.debug(hr+"");
+		int hour = Integer.parseInt(hr);
+		int minutes = Integer.parseInt(min);
+		logger.debug(hour+":"+minutes);
 		String ampm = "AM";
-		if(hr > 12)
+		if(hour > 12)
 		{
-			
-			hr -= 12;
+			hour -= 12;
 			ampm = "PM";
 		}
-		else if(hr==12)
+		else if(hour==12)
 		{
 			ampm = "PM";
 		}
-		else if(hr==0)
+		else if(hour==0)
 		{
-			hr = 12;
+			hour = 12;
 		}
 		StringBuilder sb = new StringBuilder()
-				.append(hr)
+				.append(hour)
 				.append(":")
-				.append(timeArray[1])
+				.append(minutes)
 				.append(" ")
 				.append(ampm);
 		return sb.toString();

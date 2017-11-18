@@ -7,10 +7,16 @@ Installation:
  * modify config.properties in (gfl-elastic, gfl-client, gfl-sfbay, gfl-service)
  * rename install.txt to install.sh
  * rename ngrok.txt to ngrok (for testing on localhost)
- * run chmod +x install.sh
- * ./install.sh
- * run chmod +x ngrok
- * on different terminal execute command ./ngrok http [port_of_gfl-service]
+ * execute the following commands on the terminal (current working directory : gfl-challenge/elastic)
+```
+chmod +x install.sh
+./install.sh
+chmod +x ngrok
+```
+ * on the separate terminal execute the following command
+ ``` 
+ ./ngrok http [port_of_gfl-service]
+ ```
  * copy the forwarding address and paste it in the slack slash command intgration setting's url field.
 
 ![ngrok](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.13.18.png "ngrok")

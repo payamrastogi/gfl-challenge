@@ -47,7 +47,7 @@ public class GflResource
 		threadPool(maxThreads, minThreads, timeOutMillis);
 		Config config = initConfig();
 		
-		get("/gfl/search/:stopCode", (request, response) -> 
+		get("/gfl/search/stopCode/:stopCode", (request, response) -> 
 		{
 			String stopCode = request.params(":stopCode");
 			List<GflResponse> list = getResponse(config, stopCode);

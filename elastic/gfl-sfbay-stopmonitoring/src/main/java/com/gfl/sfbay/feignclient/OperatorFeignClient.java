@@ -36,8 +36,7 @@ public class OperatorFeignClient {
 	//or should it be the part of any other class eg ElasticSearch
 	public List<OperatorResponseModel>  getResponse(OperatorSearch search)
 	{
-		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
-		List<OperatorResponseModel>  response = search.getOperators();
+		List<OperatorResponseModel>  response = search.getOperators(config.getSfBayApiKey());
 		return response;
 	}
 	
@@ -48,7 +47,7 @@ public class OperatorFeignClient {
 			return map;
 		for(OperatorResponseModel response : list)
 		{
-			map.put(response.name, response.id);
+			map.put(response.getName(), response.getId());
 		}
 		logger.debug(map+"");
 		return map;

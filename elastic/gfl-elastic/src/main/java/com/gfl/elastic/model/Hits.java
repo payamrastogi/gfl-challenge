@@ -6,9 +6,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Hits
 {
 	@JsonProperty("total")
-	public int total;
+	private int total;
 	@JsonProperty("max_score")
-	public double maxScore;
+	private double maxScore;
 	@JsonProperty("hits")
-	public List<HitsDetail> hits;
+	private List<HitsDetail> hits;
+	
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public double getMaxScore() {
+		return maxScore;
+	}
+	public void setMaxScore(double maxScore) {
+		this.maxScore = maxScore;
+	}
+	public List<HitsDetail> getHits() {
+		return hits;
+	}
+	public void setHits(List<HitsDetail> hits) {
+		this.hits = hits;
+	}
 }

@@ -69,8 +69,12 @@ public class ElasticSearchResource
 		ElasticFeignClient ec = new ElasticFeignClient(config);
 		ElasticSearch elasticSearch = ec .createClient();
 		ElasticSearchResponse elasticResponse = ec .getResponse(elasticSearch, config.getElasticIndexName(), "stopCode:"+stopCode);
-		if(elasticResponse!=null && elasticResponse.hits!=null && elasticResponse.hits.hits!=null && !elasticResponse.hits.hits.isEmpty())
-			agencyName = elasticResponse.hits.hits.get(0).source.agency;
+		if(elasticResponse!=null 
+				&& elasticResponse.getHits()!=null 
+				&& elasticResponse.getHits().getHits()!=null 
+				&& !elasticResponse.getHits().getHits().isEmpty()
+				&& elasticResponse.getHits().getHits().get(0).getSource()!=null)
+			agencyName = elasticResponse.getHits().getHits().get(0).getSource().getAgency();
 		return agencyName;
 	}
 }

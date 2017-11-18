@@ -4,15 +4,52 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MonitoredCall
 {
 	@JsonProperty("StopPointRef")
-	public String stopPointRef;
+	private String stopPointRef;
 	@JsonProperty("VisitNumber")
-	public String visitNumber;
+	private String visitNumber;
 	@JsonProperty("StopPointName")
-	public String stopPointName;
+	private String stopPointName;
 	@JsonProperty("VehicleAtStop")
-	public String vehicleAtStop;
+	private String vehicleAtStop;
 	@JsonProperty("AimedArrivalTime")
-	public String aimedArrivalTime;
+	private String aimedArrivalTime;
 	@JsonProperty("AimedDepartureTime")
-	public String aimedDepartureTime;
+	private String aimedDepartureTime;
+	
+	public String getStopPointRef() {
+		return stopPointRef;
+	}
+	public void setStopPointRef(String stopPointRef) {
+		this.stopPointRef = stopPointRef;
+	}
+	public String getVisitNumber() {
+		return visitNumber;
+	}
+	public void setVisitNumber(String visitNumber) {
+		this.visitNumber = visitNumber;
+	}
+	public String getStopPointName() {
+		return stopPointName;
+	}
+	public void setStopPointName(String stopPointName) {
+		this.stopPointName = stopPointName;
+	}
+	public String getVehicleAtStop() {
+		return vehicleAtStop;
+	}
+	public void setVehicleAtStop(String vehicleAtStop) {
+		this.vehicleAtStop = vehicleAtStop;
+	}
+	public String getAimedArrivalTime() {
+		return aimedArrivalTime;
+	}
+	public void setAimedArrivalTime(String aimedArrivalTime) {
+		this.aimedArrivalTime = aimedArrivalTime;
+	}
+	public String getAimedDepartureTime() {
+		return aimedDepartureTime;
+	}
+	public void setAimedDepartureTime(String aimedDepartureTime) {
+		this.aimedDepartureTime = aimedDepartureTime;
+	}
 }

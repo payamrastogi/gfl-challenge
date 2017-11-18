@@ -5,7 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class FramedVehicleJourneyRef
 {
 	@JsonProperty("DataFrameRef")
-	public String dataFrameRef;
+	private String dataFrameRef;
 	@JsonProperty("DatedVehicleJourneyRef")
-	public String datedVehicleJourneyRef;
+	private String datedVehicleJourneyRef;
+	
+	public String getDataFrameRef() {
+		return dataFrameRef;
+	}
+	public void setDataFrameRef(String dataFrameRef) {
+		this.dataFrameRef = dataFrameRef;
+	}
+	public String getDatedVehicleJourneyRef() {
+		return datedVehicleJourneyRef;
+	}
+	public void setDatedVehicleJourneyRef(String datedVehicleJourneyRef) {
+		this.datedVehicleJourneyRef = datedVehicleJourneyRef;
+	}
 }

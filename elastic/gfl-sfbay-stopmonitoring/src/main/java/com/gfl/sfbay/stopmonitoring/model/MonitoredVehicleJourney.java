@@ -5,19 +5,67 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MonitoredVehicleJourney
 {
 	@JsonProperty("LineRef")
-	public String lineRef;
+	private String lineRef;
 	@JsonProperty("DirectionRef")
-	public String directionRef;
+	private String directionRef;
 	@JsonProperty("FramedVehicleJourneyRef")
-	public FramedVehicleJourneyRef framedVehicleJourneyRef;
+	private FramedVehicleJourneyRef framedVehicleJourneyRef;
 	@JsonProperty("PublishedLineName")
-	public String publishedLineName;
+	private String publishedLineName;
 	@JsonProperty("OperatorRef")
-	public String operatorRef;
+	private String operatorRef;
 	@JsonProperty("Monitored")
-	public boolean monitored;
+	private boolean monitored;
 	@JsonProperty("VehicleLocation")
-	public VehicleLocation vehicleLocation;
+	private VehicleLocation vehicleLocation;
 	@JsonProperty("MonitoredCall")
-	public MonitoredCall monitoredCall;
+	private MonitoredCall monitoredCall;
+	public String getLineRef() {
+		return lineRef;
+	}
+	public void setLineRef(String lineRef) {
+		this.lineRef = lineRef;
+	}
+	public String getDirectionRef() {
+		return directionRef;
+	}
+	public void setDirectionRef(String directionRef) {
+		this.directionRef = directionRef;
+	}
+	public FramedVehicleJourneyRef getFramedVehicleJourneyRef() {
+		return framedVehicleJourneyRef;
+	}
+	public void setFramedVehicleJourneyRef(FramedVehicleJourneyRef framedVehicleJourneyRef) {
+		this.framedVehicleJourneyRef = framedVehicleJourneyRef;
+	}
+	public String getPublishedLineName() {
+		return publishedLineName;
+	}
+	public void setPublishedLineName(String publishedLineName) {
+		this.publishedLineName = publishedLineName;
+	}
+	public String getOperatorRef() {
+		return operatorRef;
+	}
+	public void setOperatorRef(String operatorRef) {
+		this.operatorRef = operatorRef;
+	}
+	public boolean isMonitored() {
+		return monitored;
+	}
+	public void setMonitored(boolean monitored) {
+		this.monitored = monitored;
+	}
+	public VehicleLocation getVehicleLocation() {
+		return vehicleLocation;
+	}
+	public void setVehicleLocation(VehicleLocation vehicleLocation) {
+		this.vehicleLocation = vehicleLocation;
+	}
+	public MonitoredCall getMonitoredCall() {
+		return monitoredCall;
+	}
+	public void setMonitoredCall(MonitoredCall monitoredCall) {
+		this.monitoredCall = monitoredCall;
+	}
 }

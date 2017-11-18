@@ -5,9 +5,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MonitoredStopVisit
 {
 	@JsonProperty("RecordedAtTime")
-	public String recordedAtTime;
+	private String recordedAtTime;
 	@JsonProperty("MonitoringRef")
-	public String monitoringRef;
+	private String monitoringRef;
 	@JsonProperty("MonitoredVehicleJourney")
-	public MonitoredVehicleJourney monitoredVehicleJourney;
+	private MonitoredVehicleJourney monitoredVehicleJourney;
+	public String getRecordedAtTime() {
+		return recordedAtTime;
+	}
+	public void setRecordedAtTime(String recordedAtTime) {
+		this.recordedAtTime = recordedAtTime;
+	}
+	public String getMonitoringRef() {
+		return monitoringRef;
+	}
+	public void setMonitoringRef(String monitoringRef) {
+		this.monitoringRef = monitoringRef;
+	}
+	public MonitoredVehicleJourney getMonitoredVehicleJourney() {
+		return monitoredVehicleJourney;
+	}
+	public void setMonitoredVehicleJourney(MonitoredVehicleJourney monitoredVehicleJourney) {
+		this.monitoredVehicleJourney = monitoredVehicleJourney;
+	}
 }

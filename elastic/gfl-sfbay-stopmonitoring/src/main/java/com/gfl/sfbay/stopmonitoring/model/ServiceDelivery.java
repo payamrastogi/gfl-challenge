@@ -5,11 +5,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ServiceDelivery
 {
 	@JsonProperty("ResponseTimestamp")
-	public String responseTimestamp;
+	private String responseTimestamp;
 	@JsonProperty("ProducerRef")
-	public String producerRef;
+	private String producerRef;
 	@JsonProperty("Status")
-	public boolean status;
+	private boolean status;
 	@JsonProperty("StopMonitoringDelivery")
-	public StopMonitoringDelivery stopMonitoringDelivery;
+	private StopMonitoringDelivery stopMonitoringDelivery;
+	public String getResponseTimestamp() {
+		return responseTimestamp;
+	}
+	public void setResponseTimestamp(String responseTimestamp) {
+		this.responseTimestamp = responseTimestamp;
+	}
+	public String getProducerRef() {
+		return producerRef;
+	}
+	public void setProducerRef(String producerRef) {
+		this.producerRef = producerRef;
+	}
+	public boolean isStatus() {
+		return status;
+	}
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	public StopMonitoringDelivery getStopMonitoringDelivery() {
+		return stopMonitoringDelivery;
+	}
+	public void setStopMonitoringDelivery(StopMonitoringDelivery stopMonitoringDelivery) {
+		this.stopMonitoringDelivery = stopMonitoringDelivery;
+	}
+	
 }

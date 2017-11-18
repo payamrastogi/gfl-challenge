@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Shards
 {
 	@JsonProperty("total")
-	public int total;
+	private int total;
 	@JsonProperty("successful")
-	public int successful;
+	private int successful;
 	@JsonProperty("failed")
-	public int failed;
+	private int failed;
 }

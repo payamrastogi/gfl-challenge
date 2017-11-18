@@ -5,5 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class StopMonitoringResponseModel
 {
 	@JsonProperty("ServiceDelivery")
-	public ServiceDelivery serviceDelivery;
+	private ServiceDelivery serviceDelivery;
+
+	public ServiceDelivery getServiceDelivery() {
+		return serviceDelivery;
+	}
+
+	public void setServiceDelivery(ServiceDelivery serviceDelivery) {
+		this.serviceDelivery = serviceDelivery;
+	}
 }

@@ -125,12 +125,12 @@ public class SearchResource
 		List<StopMonitoringResponse> list = new ArrayList<>();
 		logger.debug(agencyCode+ " ######################################################### "+ stopCode);
 		if(stopResponse!=null 
-				&& stopResponse.serviceDelivery!=null 
-				&& stopResponse.serviceDelivery.stopMonitoringDelivery!=null
-				&& stopResponse.serviceDelivery.stopMonitoringDelivery.monitoredStopVisits!=null
-				&& !stopResponse.serviceDelivery.stopMonitoringDelivery.monitoredStopVisits.isEmpty())
+				&& stopResponse.getServiceDelivery()!=null 
+				&& stopResponse.getServiceDelivery().getStopMonitoringDelivery()!=null
+				&& stopResponse.getServiceDelivery().getStopMonitoringDelivery().getMonitoredStopVisits()!=null
+				&& !stopResponse.getServiceDelivery().getStopMonitoringDelivery().getMonitoredStopVisits().isEmpty())
 		{
-			List<MonitoredStopVisit> monitoredVisits = stopResponse.serviceDelivery.stopMonitoringDelivery.monitoredStopVisits;
+			List<MonitoredStopVisit> monitoredVisits = stopResponse.getServiceDelivery().getStopMonitoringDelivery().getMonitoredStopVisits();
 			for(MonitoredStopVisit monitoredVisit:monitoredVisits)
 			{
 				String busNo = getBusNo(monitoredVisit);
@@ -146,12 +146,11 @@ public class SearchResource
 	
 	public static String getBusNo(MonitoredStopVisit monitoredVisit)
 	{
-		
 		String busNo = null;
-		if(monitoredVisit.monitoredVehicleJourney!=null
-				&& monitoredVisit.monitoredVehicleJourney.lineRef!=null)
+		if(monitoredVisit.getMonitoredVehicleJourney()!=null
+				&& monitoredVisit.getMonitoredVehicleJourney().getLineRef()!=null)
 		{
-				busNo = monitoredVisit.monitoredVehicleJourney.lineRef;
+				busNo = monitoredVisit.getMonitoredVehicleJourney().getLineRef();
 		}
 		return busNo;
 	}
@@ -159,10 +158,10 @@ public class SearchResource
 	public static String getArrivalTime(MonitoredStopVisit monitoredVisit)
 	{
 		String arrivalTime = null;
-		if(monitoredVisit.monitoredVehicleJourney.monitoredCall!=null
-				&& monitoredVisit.monitoredVehicleJourney.monitoredCall.aimedArrivalTime!=null)
+		if(monitoredVisit.getMonitoredVehicleJourney().getMonitoredCall()!=null
+				&& monitoredVisit.getMonitoredVehicleJourney().getMonitoredCall().getAimedArrivalTime()!=null)
 		{
-				arrivalTime = monitoredVisit.monitoredVehicleJourney.monitoredCall.aimedArrivalTime;
+				arrivalTime = monitoredVisit.getMonitoredVehicleJourney().getMonitoredCall().getAimedArrivalTime();
 		}
 		return arrivalTime;
 	}

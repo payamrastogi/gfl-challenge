@@ -19,8 +19,12 @@ public class GflResponse implements Response
 	@JsonProperty("arrivalTime")
 	private String arrivalTime;
 	
+	public GflResponse()
+	{
+		
+	}
+	
 	public GflResponse(String stopCode, String agencyName, String agencyCode, String busNo, String arrivalTime) {
-		super();
 		this.stopCode = stopCode;
 		this.agencyName = agencyName;
 		this.agencyCode = agencyCode;

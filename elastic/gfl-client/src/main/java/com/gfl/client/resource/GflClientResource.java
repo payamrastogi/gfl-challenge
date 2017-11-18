@@ -26,7 +26,6 @@ import com.gfl.client.response.StandardGflResponse;
 import com.gfl.client.search.GflServiceSearch;
 import com.gfl.client.util.Config;
 import com.gfl.client.util.DateUtil;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class GflClientResource 
@@ -35,7 +34,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 	
 	public static void main(String args[])
 	{
-		port(8883);
+		port(8884);
 		int maxThreads = 8;
 		int minThreads = 2;
 		int timeOutMillis = 30000;
@@ -80,6 +79,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		GflClientFeignClient ec = new GflClientFeignClient(config);
 		GflServiceSearch gflSearch = ec.createClient();
 		StandardGflResponse gflResponse = gflSearch.getResponse(stopCode);
+		logger.debug(gflResponse.toString());
 		if("SUCCESS".equals(gflResponse.getStatus())) 
 		{
 			responseList = gflResponse.getData();
@@ -99,7 +99,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		for(int i=0;i<responseSize;i++)
 		{
 			GflResponse gflResponse = responseList.get(i);
-			slackResponseList.add(getSlackResponse(config, 
+			slackResponseList.add(getFormattedSlackResponse(config, 
 					gflResponse.getAgencyName(), 
 					gflResponse.getStopCode(), 
 					gflResponse.getBusNo(),
@@ -110,7 +110,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return slackResponseList;
 	}
 	
-	public static String getSlackResponse(Config config, String agencyName, String stopCode, String busNo, String arrivalTime)
+	public static String getFormattedSlackResponse(Config config, String agencyName, String stopCode, String busNo, String arrivalTime)
 	{
 		String responseTemplate = config.getSlackResponseTemplate();
 		logger.debug(responseTemplate);

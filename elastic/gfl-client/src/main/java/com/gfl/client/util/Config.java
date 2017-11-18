@@ -17,11 +17,11 @@ public class Config
 	private final String slackResponseTemplate;
 	private final int slackResponseSize;
 	
-	private static final String HTTPS="https://";
+	private static final String HTTP="http://";
 	
 	public String getGflServiceUrl()
 	{
-		return HTTPS+getGflServiceHostname();
+		return HTTP+getGflServiceHostname()+":"+getGflServicePort();
 	}
 	
 	public String getGflServiceHostname() {

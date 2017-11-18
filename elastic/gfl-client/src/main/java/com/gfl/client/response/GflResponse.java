@@ -19,8 +19,12 @@ public class GflResponse
 	@JsonProperty("arrivalTime")
 	private String arrivalTime;
 	
+	public GflResponse()
+	{
+		
+	}
+	
 	public GflResponse(String stopCode, String agencyName, String agencyCode, String busNo, String arrivalTime) {
-		super();
 		this.stopCode = stopCode;
 		this.agencyName = agencyName;
 		this.agencyCode = agencyCode;
@@ -68,4 +72,9 @@ public class GflResponse
 		this.arrivalTime = arrivalTime;
 	}
 
+	@Override
+	public String toString()
+	{
+		return getAgencyCode() + " : " + getAgencyName() + " : " + getStopCode() + " : " + getBusNo() + " : " + getArrivalTime();
+ 	}
 }

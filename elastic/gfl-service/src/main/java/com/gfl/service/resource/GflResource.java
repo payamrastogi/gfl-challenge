@@ -8,14 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,9 +23,7 @@ import com.gfl.service.response.StopMonitoringResponse;
 import com.gfl.service.search.ElasticSearch;
 import com.gfl.service.search.SfBaySearch;
 import com.gfl.service.util.Config;
-import com.gfl.service.util.DateUtil;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 public class GflResource
 {
 	private static Logger logger = LoggerFactory.getLogger(GflResource.class);
@@ -53,10 +43,16 @@ public class GflResource
 			List<GflResponse> list = getResponse(config, stopCode);
 			if(!list.isEmpty())
 			{
-				return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(list)));
+				String res = new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(list)));
+				logger.debug(res);
+				return res;
 			}
 			else
-				return new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Result for the Stop Code: "+ stopCode+ "  not found")));
+			{
+				String res = new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Result for the Stop Code: "+ stopCode+ "  not found")));
+				logger.error(res);
+				return res;
+			}
 		});
 	}
 	
@@ -97,7 +93,7 @@ public class GflResource
 			for(StopMonitoringResponse sr : list)
 			{
 				String busNo = getBusNo(sr);
-				String arrivalTime = DateUtil.getTimeIn12HrFormat(getArrivalTime(sr));
+				String arrivalTime = getArrivalTime(sr);
 				logger.debug(busNo + " "+ arrivalTime);
 				responseList.add(new GflResponse(stopCode, agencyName,agencyCode, busNo, arrivalTime));
 			}
@@ -165,29 +161,5 @@ public class GflResource
 	public static String getArrivalTime(StopMonitoringResponse stopResponse)
 	{
 		return  stopResponse.getArrivalTime();
-	}
-	
-	
-	
-	public static void sendResponse(String url, String slackResponse) throws ClientProtocolException, IOException
-	{
-		HttpClient client = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(url);
-    		JsonObject j = new JsonObject();
-    		j.addProperty("response_type", "in_channel");
-    		j.addProperty("text", slackResponse);
-    		
-    		StringEntity params =new StringEntity(j.toString());
-    		request.addHeader("content-type", "application/json");
-    		request.setEntity(params);
-        HttpResponse response = client.execute(request);
-        HttpEntity entity = response.getEntity();
-
-        // Read the contents of an entity and return it as a String.
-        String content = EntityUtils.toString(entity);
-        logger.debug(content);
-        //JsonArray arr = new Gson().fromJson(content, JsonArray.class);
-        //JsonObject obj = (JsonObject) arr.get(0);
-        //System.out.println(obj.get("Id") + " " + obj.get("Name") + " " + obj.get("ContactTelephoneNumber"));
 	}
 }

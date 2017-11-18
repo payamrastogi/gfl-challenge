@@ -7,7 +7,7 @@ import feign.RequestLine;
 
 public interface SfBaySearch
 {
-	@RequestLine("GET /gfl/sfbay/search/{agencyCode}/{stopCode}")
+	@RequestLine("GET /gfl/sfbay/search/agencyCode/{agencyCode}/stopCode/{stopCode}")
 	StandardResponse predict(@Param("agencyCode") String agencyCode, @Param("stopCode") String stopCode);
 	
 	@RequestLine("GET /gfl/sfbay/search/agencyName/{agencyName}")

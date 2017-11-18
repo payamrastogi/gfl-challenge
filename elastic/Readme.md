@@ -1,6 +1,6 @@
 # Readme.md
 
-Installation:
+####Installation:
 
  * git clone https://github.com/payamrastogi/gfl-challenge.git
  * cd gfl-challenge/elastic
@@ -17,14 +17,14 @@ chmod +x ngrok
  ``` 
  ./ngrok http [port_of_gfl-service]
  ```
- * copy the forwarding address and paste it in the slack slash command intgration setting's url field.
+ * copy the forwarding address and paste it in the slack slash command intgration setting's url field appended with /slack511.
 
 ![ngrok](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.13.18.png "ngrok")
 
 ![slack slash command](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.14.35.png "slash command")
 
 
-Description
+####Description
 
 The current folder contains 5 different projects
 
@@ -72,7 +72,7 @@ Response
 
 Request
 ```
-GET /gfl/sfbay/search/:agencyCode/:stopCode
+GET /gfl/sfbay/search/agencyCode/:agencyCode/stopCode/:stopCode
 ```
 
 Response
@@ -123,6 +123,8 @@ Response
 ![response to slack](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2014.49.52.png "response")
 
 * gfl-common: It contains the common resources used by other components
+
+
 
 ### References:
 

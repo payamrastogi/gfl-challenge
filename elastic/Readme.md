@@ -116,10 +116,7 @@ Response
 
 ![response to slack](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2014.49.52.png "response")
 
-gfl-common: It contains the common resources used by other components
-
-This is [on GitHub](https://github.com/jbt/markdown-editor)
-
+* gfl-common: It contains the common resources used by other components
 
 ### Stuff used to make this:
 

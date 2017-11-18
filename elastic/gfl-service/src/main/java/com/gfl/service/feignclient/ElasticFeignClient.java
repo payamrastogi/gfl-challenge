@@ -1,7 +1,6 @@
 package com.gfl.service.feignclient;
 
 import com.gfl.service.response.StandardResponse;
-import com.gfl.service.search.ElasticSearch;
 import com.gfl.service.util.Config;
 
 import feign.Feign;

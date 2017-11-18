@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gfl.service.response.StandardResponse;
-import com.gfl.service.search.SfBaySearch;
 import com.gfl.service.util.Config;
 
 import feign.Feign;

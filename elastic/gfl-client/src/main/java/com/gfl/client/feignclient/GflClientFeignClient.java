@@ -2,7 +2,6 @@ package com.gfl.client.feignclient;
 
 import com.gfl.client.response.StandardGflResponse;
 import com.gfl.client.response.StandardResponse;
-import com.gfl.client.search.GflServiceSearch;
 import com.gfl.client.util.Config;
 
 import feign.Feign;

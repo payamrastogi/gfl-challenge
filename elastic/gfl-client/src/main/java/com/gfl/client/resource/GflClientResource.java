@@ -22,8 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gfl.client.feignclient.GflClientFeignClient;
+import com.gfl.client.feignclient.GflServiceSearch;
 import com.gfl.client.response.StandardResponse;
-import com.gfl.client.search.GflServiceSearch;
 import com.gfl.client.util.Config;
 import com.gfl.client.util.DateUtil;
 import com.gfl.commons.exception.HostNameNotProvidedException;
@@ -59,7 +59,8 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		Config config = null;
 		try
 		{
-			File file = new File("src/main/resources/config.properties");
+			//File file = new File("src/main/resources/config.properties");
+			File file = new File("./gfl-client/config.properties");
 			if (!file.exists()) 
 			{
 				System.out.println("config.properties not found @" + file.getAbsolutePath());

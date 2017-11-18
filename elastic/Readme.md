@@ -124,7 +124,20 @@ Response
 
 * gfl-common: It contains the common resources used by other components
 
+####To Stop the Servers
+* use the following command - list the servers running on ports starting with 888 
+```
+lsof -i -n -P | grep 888
 
+```
+![list server running on port](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2016.24.27.png "list servers")
+
+* Stop the servers using the following commands
+
+```
+kill -9 <process_id>
+```
+![kill servers](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2016.24.50.png "kill servers")
 
 ### References:
 

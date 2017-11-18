@@ -1,6 +1,6 @@
 # Readme.md
 
-###Installation:
+#### Installation:
 
  * git clone https://github.com/payamrastogi/gfl-challenge.git
  * cd gfl-challenge/elastic
@@ -24,7 +24,7 @@ chmod +x ngrok
 ![slack slash command](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.14.35.png "slash command")
 
 
-###Description
+#### Description
 
 The current folder contains 5 different projects
 
@@ -124,7 +124,7 @@ Response
 
 * gfl-common: It contains the common resources used by other components
 
-###To Stop the Servers
+#### To Stop the Servers
 * use the following command - list the servers running on ports starting with 888 
 ```
 lsof -i -n -P | grep 888

@@ -13,18 +13,18 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gfl.sfbay.exception.ApiKeyNotProvidedException;
+import com.gfl.sfbay.exception.HostNameNotProvidedException;
 import com.gfl.sfbay.feignclient.OperatorFeignClient;
+import com.gfl.sfbay.feignclient.SfBaySearch;
 import com.gfl.sfbay.feignclient.StopMonitoringFeignClient;
 import com.gfl.sfbay.operator.model.OperatorResponseModel;
-import com.gfl.sfbay.operator.model.OperatorSearch;
-
 import com.gfl.sfbay.response.OperatorResponse;
 import com.gfl.sfbay.response.StandardResponse;
 import com.gfl.sfbay.response.StatusResponse;
 import com.gfl.sfbay.response.StopMonitoringResponse;
 import com.gfl.sfbay.stopmonitoring.model.MonitoredStopVisit;
 import com.gfl.sfbay.stopmonitoring.model.StopMonitoringResponseModel;
-import com.gfl.sfbay.stopmonitoring.model.StopMonitoringSearch;
 import com.gfl.sfbay.util.Config;
 import com.google.gson.Gson;
 
@@ -35,12 +35,10 @@ public class SearchResource
 	
 	public static void main(String args[])
 	{
-		port(8882);
-		int maxThreads = 8;
-		int minThreads = 2;
-		int timeOutMillis = 30000;
-		threadPool(maxThreads, minThreads, timeOutMillis);
 		Config config = initConfig();
+		port(config.getPort());
+		threadPool(config.getMaxThreads(), config.getMinThreads(), config.getTimeOutMillis());
+		
 		
 		get("/gfl/sfbay/search/agencyName/:agencyName", (request, response) -> 
 		{
@@ -75,7 +73,6 @@ public class SearchResource
 		try
 		{
 			File file = new File("src/main/resources/config.properties");
-			//File file = new File("src/main/resources/config.properties");
 			if (!file.exists()) 
 			{
 				System.out.println("config.properties not found @" + file.getAbsolutePath());
@@ -83,9 +80,20 @@ public class SearchResource
 			}
 			config = new Config(file);
 		}
-		catch(IOException e)
+		catch(IOException ie)
 		{
-			logger.error(e.getMessage());
+			logger.error(ie.getMessage());
+			System.exit(1);
+		}
+		catch(HostNameNotProvidedException he)
+		{
+			logger.error(he.getMessage());
+			System.exit(1);
+		}
+		catch(ApiKeyNotProvidedException ae)
+		{
+			logger.error(ae.getMessage());
+			System.exit(1);
 		}
 		return config;
 	}
@@ -97,7 +105,7 @@ public class SearchResource
 		{
 			OperatorFeignClient oc = new OperatorFeignClient(config);
 			logger.debug(config.getSfBayUrl());
-			OperatorSearch operatorSearch = oc.createClient();
+			SfBaySearch operatorSearch = oc.createClient();
 			List<OperatorResponseModel>  ocResponse = oc.getResponse(operatorSearch);
 			agencyNameCodeMap = oc.getAgencyNameCodeMap(ocResponse);
 		}
@@ -106,7 +114,7 @@ public class SearchResource
 			if(agencyNameCodeMap.containsKey(agencyName))
 			{
 				agencyCode = agencyNameCodeMap.get(agencyName);
-				logger.debug(agencyCode);
+				logger.debug("agencyCode: " + agencyCode);
 			}
 		}
 		return agencyCode;
@@ -115,7 +123,7 @@ public class SearchResource
 	public static StopMonitoringResponseModel getStopMonitoringResponse(Config config, String agencyCode, String stopCode)
 	{
 		StopMonitoringFeignClient sc = new StopMonitoringFeignClient(config);
-		StopMonitoringSearch search = sc.createClient();
+		SfBaySearch search = sc.createClient();
 		StopMonitoringResponseModel stopResponse = sc.getResponse(search, agencyCode, stopCode);
 		return stopResponse;
 	}
@@ -123,7 +131,6 @@ public class SearchResource
 	public static List<StopMonitoringResponse> getResponse(StopMonitoringResponseModel stopResponse, String agencyCode, String stopCode)
 	{
 		List<StopMonitoringResponse> list = new ArrayList<>();
-		logger.debug(agencyCode+ " ######################################################### "+ stopCode);
 		if(stopResponse!=null 
 				&& stopResponse.getServiceDelivery()!=null 
 				&& stopResponse.getServiceDelivery().getStopMonitoringDelivery()!=null
@@ -131,16 +138,27 @@ public class SearchResource
 				&& !stopResponse.getServiceDelivery().getStopMonitoringDelivery().getMonitoredStopVisits().isEmpty())
 		{
 			List<MonitoredStopVisit> monitoredVisits = stopResponse.getServiceDelivery().getStopMonitoringDelivery().getMonitoredStopVisits();
-			for(MonitoredStopVisit monitoredVisit:monitoredVisits)
+			if(monitoredVisits.isEmpty())
 			{
-				String busNo = getBusNo(monitoredVisit);
-				String arrivalTime = getArrivalTime(monitoredVisit);
-				if(busNo!=null && arrivalTime!=null)
+				logger.error("StopMonitoringResponse: monitoredVisits is empty");
+			}
+			else
+			{
+				for(MonitoredStopVisit monitoredVisit:monitoredVisits)
 				{
-					list.add(new StopMonitoringResponse(agencyCode, stopCode, busNo, arrivalTime));
+					String busNo = getBusNo(monitoredVisit);
+					String arrivalTime = getArrivalTime(monitoredVisit);
+					if(busNo!=null && arrivalTime!=null)
+					{
+						list.add(new StopMonitoringResponse(agencyCode, stopCode, busNo, arrivalTime));
+					}
 				}
 			}
 		} 
+		else
+		{
+			logger.error("Error in getting StopMonitoringResponse" + stopResponse.toString());
+		}
 		return list;
 	}
 	

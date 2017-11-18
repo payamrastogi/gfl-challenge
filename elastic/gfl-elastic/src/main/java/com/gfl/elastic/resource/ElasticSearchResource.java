@@ -9,6 +9,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gfl.elastic.exception.HostNameNotProvidedException;
+import com.gfl.elastic.exception.IndexNameNotProvidedException;
 import com.gfl.elastic.feignclient.ElasticFeignClient;
 import com.gfl.elastic.model.ElasticSearch;
 import com.gfl.elastic.model.ElasticSearchResponse;
@@ -23,18 +25,17 @@ public class ElasticSearchResource
 	private static Logger logger = LoggerFactory.getLogger(ElasticSearchResource.class);
 	public static void main(String args[])
 	{
-		port(8881);
-		int maxThreads = 8;
-		int minThreads = 2;
-		int timeOutMillis = 30000;
-		threadPool(maxThreads, minThreads, timeOutMillis);
 		Config config = initConfig();
+		port(config.getPort());
+		threadPool(config.getMaxThreads(), config.getMinThreads(), config.getTimeOutMillis());
+		
 		get("/gfl/elastic/search/stopCode/:stopCode", (request, response) -> 
 		{
 			String stopCode = request.params(":stopCode");
 			String agencyName = getAgencyName(config, stopCode);
 			if(agencyName!=null)
 			{
+				//ToDo move to utils
 				return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(new Response(stopCode, agencyName))));
 			}
 			else
@@ -42,13 +43,14 @@ public class ElasticSearchResource
 		}); 
 	}
 	
+	//ToDo singleton class
 	public static Config initConfig()
 	{
 		Config config = null;
 		try
 		{
 			File file = new File("src/main/resources/config.properties");
-			//File file = new File("src/main/resources/config.properties");
+
 			if (!file.exists()) 
 			{
 				System.out.println("config.properties not found @" + file.getAbsolutePath());
@@ -56,9 +58,20 @@ public class ElasticSearchResource
 			}
 			config = new Config(file);
 		}
-		catch(IOException e)
+		catch(IOException ie)
 		{
-			logger.error(e.getMessage());
+			logger.error(ie.getMessage());
+			System.exit(1);
+		}
+		catch(HostNameNotProvidedException he)
+		{
+			logger.error(he.getMessage());
+			System.exit(1);
+		}
+		catch(IndexNameNotProvidedException ae)
+		{
+			logger.error(ae.getMessage());
+			System.exit(1);
 		}
 		return config;
 	}
@@ -67,14 +80,18 @@ public class ElasticSearchResource
 	{
 		String agencyName = null;
 		ElasticFeignClient ec = new ElasticFeignClient(config);
-		ElasticSearch elasticSearch = ec .createClient();
-		ElasticSearchResponse elasticResponse = ec .getResponse(elasticSearch, config.getElasticIndexName(), "stopCode:"+stopCode);
+		ElasticSearch elasticSearch = ec.createClient();
+		ElasticSearchResponse elasticResponse = ec.getResponse(elasticSearch, config.getElasticIndexName(), "stopCode:"+stopCode);
 		if(elasticResponse!=null 
 				&& elasticResponse.getHits()!=null 
 				&& elasticResponse.getHits().getHits()!=null 
 				&& !elasticResponse.getHits().getHits().isEmpty()
 				&& elasticResponse.getHits().getHits().get(0).getSource()!=null)
 			agencyName = elasticResponse.getHits().getHits().get(0).getSource().getAgency();
+		else
+		{
+			logger.error("Error in getting ElasticSearchResponse");
+		}
 		return agencyName;
 	}
 }

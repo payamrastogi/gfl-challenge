@@ -2,7 +2,6 @@ package com.gfl.sfbay.feignclient;
 
 
 import com.gfl.sfbay.stopmonitoring.model.StopMonitoringResponseModel;
-import com.gfl.sfbay.stopmonitoring.model.StopMonitoringSearch;
 import com.gfl.sfbay.util.Config;
 
 import feign.Feign;
@@ -18,28 +17,18 @@ public class StopMonitoringFeignClient
 		this.config = config;
 	}
 	
-	public StopMonitoringSearch createClient()
+	public SfBaySearch createClient()
 	{
-		StopMonitoringSearch search = Feign.builder()
+		SfBaySearch search = Feign.builder()
 				.client(new OkHttpClient())
                 .decoder(new JacksonDecoder())
-                .target(StopMonitoringSearch.class, config.getSfBayUrl());
+                .target(SfBaySearch.class, config.getSfBayUrl());
 		return search;
 	}
-	//Whether this method should be created or not
-	//or should it be the part of any other class eg ElasticSearch
-	public StopMonitoringResponseModel getResponse(StopMonitoringSearch search)
-	{
-		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
-		StopMonitoringResponseModel response = search.predict();
-		return response;
-	}
 	
-	public StopMonitoringResponseModel getResponse(StopMonitoringSearch search, String agencyCode, String stopCode)
+	public StopMonitoringResponseModel getResponse(SfBaySearch search, String agencyCode, String stopCode)
 	{
-		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
-		//StopMonitoringResponseModel response = search.predict(config.getSfBayApiKey(), agencyCode, stopCode);
-		StopMonitoringResponseModel response = search.predict();
+		StopMonitoringResponseModel response = search.predict(config.getSfBayApiKey(), agencyCode, stopCode);
 		return response;
 	}
 }

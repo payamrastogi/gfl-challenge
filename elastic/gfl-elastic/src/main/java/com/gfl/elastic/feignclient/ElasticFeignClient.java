@@ -23,8 +23,7 @@ public class ElasticFeignClient
                 .target(ElasticSearch.class, config.getElasticSearchUrl());
 		return search;
 	}
-	//Whether this method should be created or not
-	//or should it be the part of any other class eg ElasticSearch
+
 	public ElasticSearchResponse getResponse(ElasticSearch search, String indexName, String query)
 	{
 		ElasticSearchResponse response = search.response(indexName, query);

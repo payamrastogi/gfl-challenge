@@ -11,6 +11,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gfl.service.exception.HostNameNotProvidedException;
+import com.gfl.service.exception.PortNotProvidedException;
 import com.gfl.service.feignclient.ElasticFeignClient;
 import com.gfl.service.feignclient.SfBayFeignClient;
 import com.gfl.service.response.GflResponse;
@@ -30,12 +32,9 @@ public class GflResource
 	
 	public static void main(String args[])
 	{
-		port(8883);
-		int maxThreads = 8;
-		int minThreads = 2;
-		int timeOutMillis = 30000;
-		threadPool(maxThreads, minThreads, timeOutMillis);
 		Config config = initConfig();
+		port(config.getPort());
+		threadPool(config.getMaxThreads(), config.getMinThreads(), config.getTimeOutMillis());
 		
 		get("/gfl/search/stopCode/:stopCode", (request, response) -> 
 		{
@@ -50,7 +49,7 @@ public class GflResource
 			else
 			{
 				String res = new Gson().toJson(new StandardResponse(StatusResponse.ERROR, new Gson().toJson("Result for the Stop Code: "+ stopCode+ "  not found")));
-				logger.error(res);
+				logger.error("Result for the Stop Code: "+ stopCode+ "  not found");
 				return res;
 			}
 		});
@@ -62,7 +61,6 @@ public class GflResource
 		try
 		{
 			File file = new File("src/main/resources/config.properties");
-			//File file = new File("src/main/resources/config.properties");
 			if (!file.exists()) 
 			{
 				System.out.println("config.properties not found @" + file.getAbsolutePath());
@@ -70,9 +68,20 @@ public class GflResource
 			}
 			config = new Config(file);
 		}
-		catch(IOException e)
+		catch(IOException ie)
 		{
-			logger.error(e.getMessage());
+			logger.error(ie.getMessage());
+			System.exit(1);
+		}
+		catch(HostNameNotProvidedException he)
+		{
+			logger.error(he.getMessage());
+			System.exit(1);
+		}
+		catch(PortNotProvidedException ae)
+		{
+			logger.error(ae.getMessage());
+			System.exit(1);
 		}
 		return config;
 	}
@@ -100,7 +109,7 @@ public class GflResource
 		}
 		else
 		{
-			logger.error(stopResponse.toString());
+			logger.error("Error in getting StandardStopMonitoringResponse");
 		}
     		return responseList;
 	}
@@ -118,7 +127,7 @@ public class GflResource
 		}
 		else
 		{
-			logger.error(elasticResponse.getStatus());
+			logger.error("Error in getting Elastic Response");
 		}
 		return agencyName;
 	}
@@ -139,7 +148,7 @@ public class GflResource
 		}
 		else
 		{
-			logger.error(scResponse.getStatus());
+			logger.error("Error in getting Operator Response");
 		}
 		return agencyCode;
 	}
@@ -150,6 +159,7 @@ public class GflResource
 		logger.debug(config.getGflSfBayUrl());
 		SfBaySearch search = sc.createClient();
 		StandardStopMonitoringResponse stopResponse = sc.getResponse(search, agencyCode, stopCode);
+		logger.debug(stopResponse.toString());
 		return stopResponse;
 	}
 	

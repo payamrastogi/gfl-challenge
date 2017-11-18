@@ -52,4 +52,11 @@ public class MonitoredCall
 	public void setAimedDepartureTime(String aimedDepartureTime) {
 		this.aimedDepartureTime = aimedDepartureTime;
 	}
+	
+	@Override
+	public String toString() {
+		return "MonitoredCall [stopPointRef=" + stopPointRef + ", visitNumber=" + visitNumber + ", stopPointName="
+				+ stopPointName + ", vehicleAtStop=" + vehicleAtStop + ", aimedArrivalTime=" + aimedArrivalTime
+				+ ", aimedDepartureTime=" + aimedDepartureTime + "]";
+	}
 }

@@ -14,4 +14,9 @@ public class StopMonitoringResponseModel
 	public void setServiceDelivery(ServiceDelivery serviceDelivery) {
 		this.serviceDelivery = serviceDelivery;
 	}
+
+	@Override
+	public String toString() {
+		return "StopMonitoringResponseModel [serviceDelivery=" + serviceDelivery + "]";
+	}
 }

@@ -20,6 +20,7 @@ public class MonitoredVehicleJourney
 	private VehicleLocation vehicleLocation;
 	@JsonProperty("MonitoredCall")
 	private MonitoredCall monitoredCall;
+	
 	public String getLineRef() {
 		return lineRef;
 	}
@@ -68,4 +69,13 @@ public class MonitoredVehicleJourney
 	public void setMonitoredCall(MonitoredCall monitoredCall) {
 		this.monitoredCall = monitoredCall;
 	}
+	
+	@Override
+	public String toString() {
+		return "MonitoredVehicleJourney [lineRef=" + lineRef + ", directionRef=" + directionRef
+				+ ", framedVehicleJourneyRef=" + framedVehicleJourneyRef + ", publishedLineName=" + publishedLineName
+				+ ", operatorRef=" + operatorRef + ", monitored=" + monitored + ", vehicleLocation=" + vehicleLocation
+				+ ", monitoredCall=" + monitoredCall + "]";
+	}
+	
 }

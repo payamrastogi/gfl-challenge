@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gfl.sfbay.operator.model.OperatorResponseModel;
-import com.gfl.sfbay.operator.model.OperatorSearch;
 import com.gfl.sfbay.util.Config;
 
 import feign.Feign;
@@ -24,17 +23,17 @@ public class OperatorFeignClient {
 		this.config = config;
 	}
 	
-	public OperatorSearch createClient()
+	public SfBaySearch createClient()
 	{
-		OperatorSearch search = Feign.builder()
+		SfBaySearch search = Feign.builder()
 				.client(new OkHttpClient())
                 .decoder(new JacksonDecoder())
-                .target(OperatorSearch.class, config.getSfBayUrl());
+                .target(SfBaySearch.class, config.getSfBayUrl());
 		return search;
 	}
 	//Whether this method should be created or not
 	//or should it be the part of any other class eg ElasticSearch
-	public List<OperatorResponseModel>  getResponse(OperatorSearch search)
+	public List<OperatorResponseModel>  getResponse(SfBaySearch search)
 	{
 		List<OperatorResponseModel>  response = search.getOperators(config.getSfBayApiKey());
 		return response;

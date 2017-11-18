@@ -13,6 +13,7 @@ public class StopMonitoringDelivery
 	private boolean status;
 	@JsonProperty("MonitoredStopVisit")
 	private List<MonitoredStopVisit> monitoredStopVisits;
+	
 	public String getVersion() {
 		return version;
 	}
@@ -36,5 +37,11 @@ public class StopMonitoringDelivery
 	}
 	public void setMonitoredStopVisits(List<MonitoredStopVisit> monitoredStopVisits) {
 		this.monitoredStopVisits = monitoredStopVisits;
+	}
+	
+	@Override
+	public String toString() {
+		return "StopMonitoringDelivery [version=" + version + ", responseTimestamp=" + responseTimestamp + ", status="
+				+ status + ", monitoredStopVisits=" + monitoredStopVisits + "]";
 	}
 }

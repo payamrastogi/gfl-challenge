@@ -1,6 +1,6 @@
 package com.gfl.elastic.response;
 
-
+//ToDo move to model response
 import com.google.gson.JsonElement;
 
 public class StandardResponse {

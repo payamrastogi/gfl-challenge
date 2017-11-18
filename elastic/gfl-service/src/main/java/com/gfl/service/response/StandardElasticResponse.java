@@ -6,6 +6,7 @@ public class StandardElasticResponse
 {
 	@JsonProperty("status")
 	private String status;
+	
 	@JsonProperty("data")
 	private ElasticResponse data;
 	

@@ -20,6 +20,8 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gfl.client.exception.HostNameNotProvidedException;
+import com.gfl.client.exception.PortNotProvidedException;
 import com.gfl.client.feignclient.GflClientFeignClient;
 import com.gfl.client.response.GflResponse;
 import com.gfl.client.response.StandardGflResponse;
@@ -34,12 +36,9 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 	
 	public static void main(String args[])
 	{
-		port(8884);
-		int maxThreads = 8;
-		int minThreads = 2;
-		int timeOutMillis = 30000;
-		threadPool(maxThreads, minThreads, timeOutMillis);
 		Config config = initConfig();
+		port(config.getPort());
+		threadPool(config.getMaxThreads(), config.getMinThreads(), config.getTimeOutMillis());
 		
 		get("/slack511", (request, response) -> 
 		{
@@ -47,7 +46,8 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 			String stopCode = request.raw().getParameter("text");
 			List<GflResponse> responseList = getResponse(config, stopCode);
 			List<String> slackResponseList = getSlackResponse(config, responseList);
-			sendSlackResponse(responseUrl, slackResponseList);
+			String slackErrorResponse = getFormattedSlackErrorResponse(config, stopCode);
+			sendSlackResponse(responseUrl, slackResponseList, slackErrorResponse);
 			response.status(200);
 			return null;
 		});
@@ -66,9 +66,20 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 			}
 			config = new Config(file);
 		}
-		catch(IOException e)
+		catch(IOException ie)
 		{
-			logger.error(e.getMessage());
+			logger.error(ie.getMessage());
+			System.exit(1);
+		}
+		catch(HostNameNotProvidedException he)
+		{
+			logger.error(he.getMessage());
+			System.exit(1);
+		}
+		catch(PortNotProvidedException pe)
+		{
+			logger.error(pe.getMessage());
+			System.exit(1);
 		}
 		return config;
 	}
@@ -87,7 +98,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		}
 		else
 		{
-			logger.error(gflResponse.getStatus());
+			logger.error("Error in getting GflResponse");
 		}
 		return responseList;
 	}
@@ -106,7 +117,7 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 					gflResponse.getArrivalTime()));
 		}
 		if(slackResponseList.isEmpty())
-			logger.error("slack response list is empty");
+			logger.error("GflResponse list is empty");
 		return slackResponseList;
 	}
 	
@@ -122,16 +133,22 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return responseTemplate;
 	}
 	
-	public static void sendSlackResponse(String url, List<String> slackResponseList) throws ClientProtocolException, IOException
+	public static String getFormattedSlackErrorResponse(Config config, String stopCode)
+	{
+		String errorResponseTemplate = config.getSlackErrorResponseTemplate();
+		errorResponseTemplate = errorResponseTemplate.replace("#STOP_CODE#", stopCode);
+		return errorResponseTemplate;
+	}
+	
+	public static void sendSlackResponse(String url, List<String> slackResponseList, String slackErrorResponse) throws ClientProtocolException, IOException
 	{
 		HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(url);
-    		
-        for(String slackResponse : slackResponseList)
-        {
-        		JsonObject j = new JsonObject();
+    		if(slackResponseList.isEmpty())
+    		{
+    			JsonObject j = new JsonObject();
         		j.addProperty("response_type", "in_channel");
-        		j.addProperty("text", slackResponse);
+        		j.addProperty("text", slackErrorResponse);
     		
         		StringEntity params =new StringEntity(j.toString());
         		request.addHeader("content-type", "application/json");
@@ -142,6 +159,25 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
         		// Read the contents of an entity and return it as a String.
         		String content = EntityUtils.toString(entity);
         		logger.debug(content);
-        }
+    		}
+    		else
+    		{
+	        for(String slackResponse : slackResponseList)
+	        {
+	        		JsonObject j = new JsonObject();
+	        		j.addProperty("response_type", "in_channel");
+	        		j.addProperty("text", slackResponse);
+	    		
+	        		StringEntity params =new StringEntity(j.toString());
+	        		request.addHeader("content-type", "application/json");
+	        		request.setEntity(params);
+	        		HttpResponse response = client.execute(request);
+	        		HttpEntity entity = response.getEntity();
+	
+	        		// Read the contents of an entity and return it as a String.
+	        		String content = EntityUtils.toString(entity);
+	        		logger.debug(content);
+	        }
+    		}
 	}
 }

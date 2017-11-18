@@ -10,6 +10,7 @@ public class MonitoredStopVisit
 	private String monitoringRef;
 	@JsonProperty("MonitoredVehicleJourney")
 	private MonitoredVehicleJourney monitoredVehicleJourney;
+	
 	public String getRecordedAtTime() {
 		return recordedAtTime;
 	}
@@ -27,5 +28,11 @@ public class MonitoredStopVisit
 	}
 	public void setMonitoredVehicleJourney(MonitoredVehicleJourney monitoredVehicleJourney) {
 		this.monitoredVehicleJourney = monitoredVehicleJourney;
+	}
+	
+	@Override
+	public String toString() {
+		return "MonitoredStopVisit [recordedAtTime=" + recordedAtTime + ", monitoringRef=" + monitoringRef
+				+ ", monitoredVehicleJourney=" + monitoredVehicleJourney + "]";
 	}
 }

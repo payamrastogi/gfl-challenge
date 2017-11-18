@@ -37,14 +37,12 @@ public class SfBayFeignClient
 	//or should it be the part of any other class eg ElasticSearch
 	public StandardOperatorResponse  getResponse(SfBaySearch search, String agencyName)
 	{
-		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
 		StandardOperatorResponse  response = search.getAgencyCode(agencyName);
 		return response;
 	}
 	
 	public StandardStopMonitoringResponse getResponse(SfBaySearch search, String agencyCode, String stopCode)
 	{
-		//OperatorResponse response = search.getOperators(config.getSfBayApiKey());
 		StandardStopMonitoringResponse response = search.predict(agencyCode, stopCode);
 		return response;
 	}

@@ -8,6 +8,7 @@ public class VehicleLocation
 	private double longitude;
 	@JsonProperty("Latitude")
 	private double latitude;
+	
 	public double getLongitude() {
 		return longitude;
 	}
@@ -19,5 +20,10 @@ public class VehicleLocation
 	}
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+	
+	@Override
+	public String toString() {
+		return "VehicleLocation [longitude=" + longitude + ", latitude=" + latitude + "]";
 	}
 }

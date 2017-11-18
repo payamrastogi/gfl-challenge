@@ -12,6 +12,7 @@ public class ServiceDelivery
 	private boolean status;
 	@JsonProperty("StopMonitoringDelivery")
 	private StopMonitoringDelivery stopMonitoringDelivery;
+	
 	public String getResponseTimestamp() {
 		return responseTimestamp;
 	}
@@ -37,4 +38,9 @@ public class ServiceDelivery
 		this.stopMonitoringDelivery = stopMonitoringDelivery;
 	}
 	
+	@Override
+	public String toString() {
+		return "ServiceDelivery [responseTimestamp=" + responseTimestamp + ", producerRef=" + producerRef + ", status="
+				+ status + ", stopMonitoringDelivery=" + stopMonitoringDelivery + "]";
+	}
 }

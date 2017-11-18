@@ -13,10 +13,16 @@ Installation:
  * on different terminal execute command ./ngrok http [port_of_gfl-service]
  * copy the forwarding address and paste it in the slack slash command intgration setting's url field.
 
+![ngrok](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.13.18.png "ngrok")
+
+![slack slash command](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.14.35.png "slash command")
+
 
 Description
 
-The current folder contains 4 different projects
+The current folder contains 5 different projects
+
+![components](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2015.17.54.png "components")
 
 * gfl-elastic:  It interacts with the  elastic search service provided by greenfieldlabs and get the agency name against the stopcode. (Deafult Port: 8881)
 
@@ -109,6 +115,8 @@ GET /slack511
 Response
 
 ![response to slack](https://github.com/payamrastogi/gfl-challenge/blob/master/elastic/screenshots/Screenshot%202017-11-18%2014.49.52.png "response")
+
+gfl-common: It contains the common resources used by other components
 
 This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
 

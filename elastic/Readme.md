@@ -124,7 +124,7 @@ Response
 
 * gfl-common: It contains the common resources used by other components
 
-### Stuff used to make this:
+### References:
 
  * [Markdown Editor](https://jbt.github.io/markdown-editor/) for Markdown Editor
  * [Slack Slash Command](https://api.slack.com/slash-commands) Slash Commands Integration

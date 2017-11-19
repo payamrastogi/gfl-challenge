@@ -31,7 +31,6 @@ import com.google.gson.Gson;
 public class GflSfBayResource
 {
 	private static Logger logger = LoggerFactory.getLogger(GflSfBayResource.class);
-	private static Map<String, String> agencyNameCodeMap;
 	
 	public static void main(String args[])
 	{
@@ -99,17 +98,23 @@ public class GflSfBayResource
 		return config;
 	}
 	
+	/**
+	 * ToDo: the performance of the method can be improved by caching the response from the operator api
+	 * by maintaining a key/value pair for agency name and agency code 
+	 * @param config
+	 * @param agencyName Agency Name for which the Agency Code needs to be fetched
+	 * @return
+	 */
 	public static String getAgencyCode(Config config, String agencyName)
 	{
 		String agencyCode  = null;
-		if(agencyNameCodeMap==null)
-		{
-			OperatorFeignClient oc = new OperatorFeignClient(config);
-			logger.debug(config.getSfBayUrl());
-			SfBaySearch operatorSearch = oc.createClient();
-			List<OperatorResponseModel>  ocResponse = oc.getResponse(operatorSearch);
-			agencyNameCodeMap = oc.getAgencyNameCodeMap(ocResponse);
-		}
+	
+		OperatorFeignClient oc = new OperatorFeignClient(config);
+		logger.debug(config.getSfBayUrl());
+		SfBaySearch operatorSearch = oc.createClient();
+		List<OperatorResponseModel>  ocResponse = oc.getResponse(operatorSearch);
+		Map<String, String> agencyNameCodeMap = oc.getAgencyNameCodeMap(ocResponse);
+		
 		if(agencyNameCodeMap!=null)
 		{
 			if(agencyNameCodeMap.containsKey(agencyName))
@@ -129,6 +134,12 @@ public class GflSfBayResource
 		return stopResponse;
 	}
 	
+	/**
+	 * @param stopResponse
+	 * @param agencyCode Agency Code for which the information needs to be fetched
+	 * @param stopCode Stop Code
+	 * @return List of StopMonitoringResponse containing agency code, stop code, bus no, arrival time
+	 */
 	public static List<StopMonitoringResponse> getResponse(StopMonitoringResponseModel stopResponse, String agencyCode, String stopCode)
 	{
 		List<StopMonitoringResponse> list = new ArrayList<>();
@@ -163,6 +174,10 @@ public class GflSfBayResource
 		return list;
 	}
 	
+	/**
+	 * @param monitoredVisit
+	 * @return String representing Bus No
+	 */
 	public static String getBusNo(MonitoredStopVisit monitoredVisit)
 	{
 		String busNo = null;
@@ -174,6 +189,10 @@ public class GflSfBayResource
 		return busNo;
 	}
 	
+	/**
+	 * @param monitoredVisit
+	 * @return String representing Arrival Time (Non formatted)
+	 */
 	public static String getArrivalTime(MonitoredStopVisit monitoredVisit)
 	{
 		String arrivalTime = null;

@@ -1,7 +1,6 @@
 package com.gfl.service.response;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.JsonElement;
 
 public class StandardResponse {

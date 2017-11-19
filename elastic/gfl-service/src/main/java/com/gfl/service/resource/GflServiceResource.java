@@ -54,6 +54,9 @@ public class GflServiceResource
 		});
 	}
 	
+	/**
+	 * @return Config object
+	 */
 	public static Config initConfig()
 	{
 		Config config = null;
@@ -86,6 +89,14 @@ public class GflServiceResource
 		return config;
 	}
 	
+	/**
+	 * @param config Config object
+	 * @param stopCode Stop Code for which the bus no and the arrival time needs to be predicted
+	 * @return List of GflResponse containing Agency Name, Agency Code, Stop Code, Bus No, and Arrival Time
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public static List<GflResponse> getResponse(Config config, String stopCode) throws JsonParseException, JsonMappingException, IOException
 	{
 		List<GflResponse> responseList = new ArrayList<>(); 
@@ -114,6 +125,15 @@ public class GflServiceResource
     		return responseList;
 	}
 	
+	
+	/**
+	 * @param config Config object
+	 * @param stopCode Stop Code for which the bus no and the arrival time needs to be predicted
+	 * @return Returns the Agency Name for the Stop Code
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	public static String getAgencyName(Config config, String stopCode) throws JsonParseException, JsonMappingException, IOException
 	{
 		ElasticFeignClient ec = new ElasticFeignClient(config);
@@ -134,6 +154,11 @@ public class GflServiceResource
 		return agencyName;
 	}
 	
+	/**
+	 * @param config Config object
+	 * @param agencyName Agency Name for which the agency code needs to be fetched
+	 * @return Agency Code for the given Agency Name
+	 */
 	public static String getAgencyCode(Config config, String agencyName)
 	{
 		String agencyCode  = null;

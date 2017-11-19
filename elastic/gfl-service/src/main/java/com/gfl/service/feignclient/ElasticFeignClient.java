@@ -5,7 +5,6 @@ import com.gfl.service.util.Config;
 
 import feign.Feign;
 import feign.gson.GsonDecoder;
-import feign.jackson.JacksonDecoder;
 
 public class ElasticFeignClient
 {
@@ -23,8 +22,13 @@ public class ElasticFeignClient
                 .target(ElasticSearch.class, config.getGflElasticUrl());
 		return search;
 	}
-	//Whether this method should be created or not
-	//or should it be the part of any other class eg ElasticSearch
+
+	
+	/**
+	 * @param search 
+	 * @param stopCode Stop Code for which Agency Name to be searched
+	 * @return StandardResponse containing Agency Name and Stop Code
+	 */
 	public StandardResponse getResponse(ElasticSearch search, String stopCode)
 	{
 		StandardResponse response = search.getAgencyName(stopCode);

@@ -29,14 +29,24 @@ public class SfBayFeignClient
                 .target(SfBaySearch.class, config.getGflSfBayUrl());
 		return search;
 	}
-	//Whether this method should be created or not
-	//or should it be the part of any other class eg ElasticSearch
+
+	/**
+	 * @param search
+	 * @param agencyName Agency Name for which the Agency Code to be searched
+	 * @return StandardResponse containing Agency Name and Agency Code
+	 */
 	public StandardResponse  getResponse(SfBaySearch search, String agencyName)
 	{
 		StandardResponse  response = search.getAgencyCode(agencyName);
 		return response;
 	}
 	
+	/**
+	 * @param search
+	 * @param agencyCode Agency Code and Stop Code for which the bus no and the arrival time needs to be predicted
+	 * @param stopCode Agency Code and Stop Code for which the bus no and the arrival time needs to be predicted
+	 * @return StandardResponse containing Agency Name,Agency Code, Stop Code, Bus No, and Arrival Time
+	 */
 	public StandardResponse getResponse(SfBaySearch search, String agencyCode, String stopCode)
 	{
 		StandardResponse response = search.predict(agencyCode, stopCode);

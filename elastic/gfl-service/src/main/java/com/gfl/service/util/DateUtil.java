@@ -34,6 +34,11 @@ public class DateUtil
 		return time;
 	}
 	
+	/**
+	 * @param timestamp Timestamp to be formatted in 12 hours format
+	 * @return String representing time in 12 hour format eg. 6:15 AM
+	 * @throws DateTimeFormatException
+	 */
 	public static String getTimeIn12HrFormat(String timestamp) throws DateTimeFormatException
 	{
 		Pattern pattern = Pattern.compile("T(\\d{2}):(\\d{2}):?.*");

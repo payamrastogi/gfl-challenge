@@ -105,6 +105,11 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return responseList;
 	}
 	
+	/**
+	 * @param config
+	 * @param List of response from gfl-service
+	 * @return List of response containing unformatted slack response 
+	 */
 	public static List<String> getSlackResponse(Config config, List<Map<String, String>> responseList)
 	{
 		List<String> slackResponseList = new ArrayList<>();
@@ -135,6 +140,11 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return responseTemplate;
 	}
 	
+	/**
+	 * @param config
+	 * @param stopCode Stop Code
+	 * @return Formatted error response for slack
+	 */
 	public static String getFormattedSlackErrorResponse(Config config, String stopCode)
 	{
 		String errorResponseTemplate = config.getSlackErrorResponseTemplate();
@@ -142,6 +152,13 @@ private static Logger logger = LoggerFactory.getLogger(GflClientResource.class);
 		return errorResponseTemplate;
 	}
 	
+	/**
+	 * @param url response url for slack
+	 * @param slackResponseList list of slack response
+	 * @param slackErrorResponse formatted error for slack
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
 	public static void sendSlackResponse(String url, List<String> slackResponseList, String slackErrorResponse) throws ClientProtocolException, IOException
 	{
 		HttpClient client = HttpClientBuilder.create().build();

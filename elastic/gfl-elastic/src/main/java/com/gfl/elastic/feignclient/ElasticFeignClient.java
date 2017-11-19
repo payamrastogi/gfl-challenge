@@ -23,6 +23,12 @@ public class ElasticFeignClient
 		return search;
 	}
 
+	/**
+	 * @param search
+	 * @param indexName Elastic Search Index Name
+	 * @param query Query in this case stopCode:<StopCode>
+	 * @return
+	 */
 	public ElasticSearchResponse getResponse(ElasticSearch search, String indexName, String query)
 	{
 		ElasticSearchResponse response = search.response(indexName, query);

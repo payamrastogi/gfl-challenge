@@ -43,7 +43,6 @@ public class GflElasticResource
 		}); 
 	}
 	
-	//ToDo singleton class
 	public static Config initConfig()
 	{
 		Config config = null;
@@ -77,6 +76,12 @@ public class GflElasticResource
 		return config;
 	}
 	
+	
+	/**
+	 * @param config Config object
+	 * @param stopCode Stop Code for which Agency Name needs to be find out
+	 * @return Agency Name
+	 */
 	public static String getAgencyName(Config config, String stopCode)
 	{
 		String agencyName = null;
